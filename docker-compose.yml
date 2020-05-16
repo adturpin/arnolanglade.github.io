@@ -1,0 +1,22 @@
+version: '3.4'
+
+services:
+  php:
+    image: 'php:7.4'
+    user: '${CURRENT_USER_IDS:-1000:1000}'
+    working_dir: '/srv/blog'
+    volumes:
+      - '.:/srv/blog'
+    networks:
+      - 'blog'
+  composer:
+    image: 'composer:latest'
+    user: '${CURRENT_USER_IDS:-1000:1000}'
+    working_dir: '/srv/blog'
+    volumes:
+      - '.:/srv/blog'
+    networks:
+      - 'blog'
+
+networks:
+  blog:
