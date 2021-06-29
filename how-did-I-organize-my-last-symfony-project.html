@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="author" content="Arnaud Langlade" />
+    <meta name="description" content="Software engineer @convelio and former core developer @sylius and @akeneo. Love DDD, BDD, TDD, event storming, example mapping">
+    <title>How did I organize my last Symfony projects?</title>
+    <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v5.12.1/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="css/styles.css" rel="stylesheet" />
+    <link href="css/code-highlight.css" rel="stylesheet" />
+    
+    <script src="https://getinsights.io/js/insights.js"></script>
+    <script>
+        insights.init('VoIrQveDE0uUwpQi');
+        insights.trackPages({
+            hash: true,
+            search: true
+        });
+    </script>
+    
+</head>
+
+    <body id="page-top">
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top navbar-shrink" id="mainNav">
+    <div class="container">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            Menu<i class="fas fa-bars ml-1"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav text-uppercase ml-auto">
+                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="index.html">About me</a></li>
+                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="talks.html">My talks</a></li>
+                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="blog.html">Blog</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+        <section class="page-section bg-light">
+            <div class="container blog">
+                
+
+<style>
+    #share-buttons {width: 100%; margin-bottom: 20px;}
+    #share-buttons:after {content: ""; display: block; clear: both;}
+    #share-buttons > div {float: right;width: 40px;cursor: pointer;}
+    #share-buttons > .facebook > svg {fill: #3B5998;}
+    #share-buttons > .twitter > svg {fill: #55ACEE;}
+    #share-buttons > .linkedin > svg {fill: #0077b5;}
+    #share-buttons > .facebook > svg {height: 30px; margin-top: 9px;}
+    #share-buttons > .twitter > svg {height: 32px; margin-top: 8px;}
+    #share-buttons > .linkedin > svg {height: 31px; margin-top: 7px;margin-left: 3px}
+</style>
+
+<div id="share-buttons">
+    <div class="linkedin" title="Share this on Linkedin" onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=http://arnolanglade.github.io//how-did-I-organize-my-last-symfony-project.html&title=title&summary=summary&source=source');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M477 625v991h-330v-991h330zm21-306q1 73-50.5 122t-135.5 49h-2q-82 0-132-49t-50-122q0-74 51.5-122.5t134.5-48.5 133 48.5 51 122.5zm1166 729v568h-329v-530q0-105-40.5-164.5t-126.5-59.5q-63 0-105.5 34.5t-63.5 85.5q-11 30-11 81v553h-329q2-399 2-647t-1-296l-1-48h329v144h-2q20-32 41-56t56.5-52 87-43.5 114.5-15.5q171 0 275 113.5t104 332.5z"/></svg></div>
+    <div class="twitter" title="Share this on Twitter" onclick="window.open('https://twitter.com/intent/tweet?text=How did I organize my last Symfony projects?&url=http://arnolanglade.github.io//how-did-I-organize-my-last-symfony-project.html&via=arnolanglade');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1684 408q-67 98-162 167 1 14 1 42 0 130-38 259.5t-115.5 248.5-184.5 210.5-258 146-323 54.5q-271 0-496-145 35 4 78 4 225 0 401-138-105-2-188-64.5t-114-159.5q33 5 61 5 43 0 85-11-112-23-185.5-111.5t-73.5-205.5v-4q68 38 146 41-66-44-105-115t-39-154q0-88 44-163 121 149 294.5 238.5t371.5 99.5q-8-38-8-74 0-134 94.5-228.5t228.5-94.5q140 0 236 102 109-21 205-78-37 115-142 178 93-10 186-50z"/></svg></div>
+    <div class="facebook" title="Share this on Facebook" onclick="window.open('https://www.facebook.com/share.php?u=http://arnolanglade.github.io//how-did-I-organize-my-last-symfony-project.html');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1343 12v264h-157q-86 0-116 36t-30 108v189h293l-39 296h-254v759h-306v-759h-255v-296h255v-218q0-186 104-288.5t277-102.5q147 0 228 12z"/></svg></div>
+</div>
+                <h1 id="how-did-i-organize-my-last-symfony-projects">How did I organize my last Symfony projects?</h1>
+
+<p><img src="assets/img/posts/project-symfony-organization.jpg" alt="How did I organize my last Symfony projects?" />
+<a href="https://unsplash.com/@alexkixa">@alexkixa</a></p>
+
+<p>In this blog post, I will explain how I organized my last Symfony projects. They are mainly inspired by Hexagonal and CQRS architecture. Keep in mind that I did not try to implement these architectures by the book, I only took some concepts that helped me to have a simple and clear codebase organization.</p>
+
+<p>If we have a look at the project’s root, nothing special happens, I kept all folders and files created during Symfony installation.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tree <span class="nb">.</span> <span class="nt">-L</span> 1                       
+├── bin
+├── composer.json
+├── composer.lock
+├── config
+├── features
+├── public
+├── src
+├── symfony.lock
+├── tests
+├── translations
+├── var
+└── vendor
+</code></pre></div></div>
+
+<p>In the next sections, we are going to see how I organized the src folder.</p>
+
+<h2 id="hexagonal-architecture">Hexagonal architecture</h2>
+
+<p>The foundation of the hexagonal architecture is the explicit separation between the domain (inside) and the infrastructure (outside). All dependencies are going from Infrastructure to the Domain.</p>
+
+<p>The domain is the part of the application that contains your business logic. It must reflect as much as possible the problem your application has to solve. This part of the application must not use IO, the infrastructure contains them all. For instance, IO are side effects like network calls, database queries, filesystem operations, actual timestamps or randomness..</p>
+
+<p>Based on that information my first decision was to split src into two areas: <code class="language-plaintext highlighter-rouge">Domain</code> and <code class="language-plaintext highlighter-rouge">Infrastructure</code>.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tree src/Domain/ <span class="nt">-L</span> 1
+api/src/Domain/
+├── Domain
+└── Infrastructure
+</code></pre></div></div>
+
+<p><strong>Coupling rules:</strong></p>
+<ul>
+  <li>Domain must not depend on the Infrastructure.</li>
+  <li>Domain must not use IO</li>
+</ul>
+
+<p>I am not a big fan of the onion architecture because I want to keep my projects as simple as possible. Having a lot of layers can be really hard to maintain because you need to align the whole team on the coupling rules. Agreeing with yourself is not easy, so getting several people to agree may be really hard. Here, we only have a single rule.</p>
+
+<p>Sometimes, I needed to write libraries because I could not find any open source libraries that match my expectations. To avoid coding in the vendor directory, I introduced a third area called <code class="language-plaintext highlighter-rouge">Libraries</code> (this new area is optional). Those libraries may be used in the domain and the infrastructure but their usage should not break the coupling rules that are defined for those areas.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tree src/Domain/ <span class="nt">-L</span> 1
+api/src/Domain/
+├── Domain
+├── Infrastructure
+└── Librairies
+</code></pre></div></div>
+
+<p><strong>Coupling rules:</strong></p>
+<ul>
+  <li>Libraries must not depend on Domain and Infrastructure</li>
+</ul>
+
+<p>Finally, I created a “sub” area called <code class="language-plaintext highlighter-rouge">Application</code> in the infrastructure that contains all pieces of code needed to have an application up and running: framework code (Symfony kernel, framework customizations), data fixtures, and migration.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tree src/Infrastructure/Application <span class="nt">-L</span> 1 
+api/src/Infrastructure/Application
+├── Exception 
+├── Fixture
+├── Kernel.php
+├── Migrations
+├── Security
+└── Kernel
+</code></pre></div></div>
+<p>In this example, <code class="language-plaintext highlighter-rouge">Exception</code> and <code class="language-plaintext highlighter-rouge">Security</code> folders contain framework customizations.</p>
+
+<h2 id="business-first">Business first</h2>
+
+<p>A really important thing for me is to drive codebase organization by business concepts. I don’t want to name folders and classes with technical patterns like factory or repository for instance. Non-tech people should be able to understand what a class does thanks to its name.</p>
+
+<h3 id="domain">Domain</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tree src/Domain <span class="nt">-L</span> 1
+api/src/Domain
+├── Cartographer
+└── Map
+</code></pre></div></div>
+
+<p>Because I did not use any technical words to name folders we can easily imagine the project is about making maps. Now, let’s have a look inside the <code class="language-plaintext highlighter-rouge">Map</code> directory:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tree src/Domain/Map <span class="nt">-L</span> 1
+├── CartographersAllowedToEditMap.php   // Value object
+├── Description.php   // Value object
+├── MapCreated.php   // Event 
+├── MapId.php   // Value object
+├── MapName.php   // Value object
+├── Map.php   // Root aggregate
+├── Maps.php   // Repository interface
+├── Marker    // All classes to design Marker entity
+├── MarkerAddedToMap.php   // Event
+├── MarkerDeletedFromMap.php   // Event
+├── MarkerEditedOnMap.php   // Event
+├── UnknownMap.php   // Exception
+└── UseCase    // Use cases orchestration
+</code></pre></div></div>
+
+<p>In this folder, we have all the pieces of code needed to design the <code class="language-plaintext highlighter-rouge">Map</code> aggregate. As you can see, I did not organize it by design patterns like <code class="language-plaintext highlighter-rouge">ValueObject</code>, <code class="language-plaintext highlighter-rouge">Event</code> or <code class="language-plaintext highlighter-rouge">Exception</code>.</p>
+
+<p>As you might have understood the <code class="language-plaintext highlighter-rouge">Map</code> entity has a one-to-many relationship with the Marker entity. All classes needed to modelize this entity are in the Marker folder and they are organized the same way as the <code class="language-plaintext highlighter-rouge">Map</code> directory.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">UseCase</code> folder gathers all pieces of code needed to orchestrate use cases like command, their handler and business validation.</p>
+
+<p><strong>Tip:</strong> I don’t suffix repositories by ‘Repository’ but I try to use a business concept to name them like <code class="language-plaintext highlighter-rouge">ProductCatalog</code> for a <code class="language-plaintext highlighter-rouge">Product</code> aggregate. If I can find a business concept to name it I use the plural of the aggregate because a repository is a collection of objects.</p>
+
+<h3 id="infrastructure">Infrastructure</h3>
+
+<p>I organize the root of the <code class="language-plaintext highlighter-rouge">Infrastructure</code> folder the same way as the <code class="language-plaintext highlighter-rouge">Domain</code> one.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tree src/Infrastructure <span class="nt">-L</span> 1            
+api/src/Infrastructure
+├── Application
+├── Cartographer
+└── Map
+</code></pre></div></div>
+
+<p>Now, let’s have a look at the <code class="language-plaintext highlighter-rouge">Map</code> directory:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tree src/Infrastructure/Map <span class="nt">-L</span> 1 
+api/src/Infrastructure/Map
+├── Storage
+└── UserInterface
+        └── Web
+        └── Cli
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">Storage</code> namespace gathers everything related to data storage like repositories, queries. The <code class="language-plaintext highlighter-rouge">UserInterface</code> namespace gathers everything related to ways to interact with the application like the WEB API (controllers) called by the front application or CLI (Symfony commands).</p>
+
+<h2 id="cqrs">CQRS</h2>
+
+<p>CQRS is the acronym for Command Query Responsibility Segregation. The main idea of CQRS is that you can use different models for writing (command) or reading (query) information. I like the idea of having two small and simple models dedicated to a precise purpose: reading or writing instead of having one big model. It can prevent your aggregate from becoming a god object because as things progress you can have many write and read use cases to handle.</p>
+
+<p>From this pattern, I decided to split the domain into two areas, the first one: <code class="language-plaintext highlighter-rouge">Command</code> and the second one: <code class="language-plaintext highlighter-rouge">Query</code>. It allows me to design a model with the same name for these reading or writing purposes.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tree src/Domain/ <span class="nt">-L</span> 2
+api/src/Domain/
+├── Command
+│   ├── Cartographer
+│   └── Map
+└── Query
+    ├── Cartographer
+    └── Map
+</code></pre></div></div>
+
+<p><strong>Coupling rule:</strong></p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Command</code> area must not depend on the <code class="language-plaintext highlighter-rouge">Query</code> area and the other way around.</li>
+</ul>
+
+<p><strong>Note:</strong> I did not make major changes in the infrastructure, the only change I made is to split the storage into two areas like the domain.</p>
+
+<p><strong>Caution:</strong> For those projects, I did not make any projections because my database schema remained simple so I did not need them. I only decided to split my models because my codebase was simple and clearer this way.</p>
+
+<h2 id="last-word">Last word</h2>
+<p>I tried for the last few years to find the perfect architecture but it does not exist. I just tried to use some architectural concepts that make me and my teammates comfortable to work on a daily basis. This project organization has been used for two projects that are in production. One of these projects is a side project I made for fun to create maps without Google Maps. The second was a professional project, real people use it on a daily basis.</p>
+
+<p>Thanks to my proofreader <a href="https://twitter.com/LaureBrosseau">@LaureBrosseau</a>.</p>
+
+                
+
+<style>
+    #share-buttons {width: 100%; margin-bottom: 20px;}
+    #share-buttons:after {content: ""; display: block; clear: both;}
+    #share-buttons > div {float: right;width: 40px;cursor: pointer;}
+    #share-buttons > .facebook > svg {fill: #3B5998;}
+    #share-buttons > .twitter > svg {fill: #55ACEE;}
+    #share-buttons > .linkedin > svg {fill: #0077b5;}
+    #share-buttons > .facebook > svg {height: 30px; margin-top: 9px;}
+    #share-buttons > .twitter > svg {height: 32px; margin-top: 8px;}
+    #share-buttons > .linkedin > svg {height: 31px; margin-top: 7px;margin-left: 3px}
+</style>
+
+<div id="share-buttons">
+    <div class="linkedin" title="Share this on Linkedin" onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=http://arnolanglade.github.io//how-did-I-organize-my-last-symfony-project.html&title=title&summary=summary&source=source');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M477 625v991h-330v-991h330zm21-306q1 73-50.5 122t-135.5 49h-2q-82 0-132-49t-50-122q0-74 51.5-122.5t134.5-48.5 133 48.5 51 122.5zm1166 729v568h-329v-530q0-105-40.5-164.5t-126.5-59.5q-63 0-105.5 34.5t-63.5 85.5q-11 30-11 81v553h-329q2-399 2-647t-1-296l-1-48h329v144h-2q20-32 41-56t56.5-52 87-43.5 114.5-15.5q171 0 275 113.5t104 332.5z"/></svg></div>
+    <div class="twitter" title="Share this on Twitter" onclick="window.open('https://twitter.com/intent/tweet?text=How did I organize my last Symfony projects?&url=http://arnolanglade.github.io//how-did-I-organize-my-last-symfony-project.html&via=arnolanglade');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1684 408q-67 98-162 167 1 14 1 42 0 130-38 259.5t-115.5 248.5-184.5 210.5-258 146-323 54.5q-271 0-496-145 35 4 78 4 225 0 401-138-105-2-188-64.5t-114-159.5q33 5 61 5 43 0 85-11-112-23-185.5-111.5t-73.5-205.5v-4q68 38 146 41-66-44-105-115t-39-154q0-88 44-163 121 149 294.5 238.5t371.5 99.5q-8-38-8-74 0-134 94.5-228.5t228.5-94.5q140 0 236 102 109-21 205-78-37 115-142 178 93-10 186-50z"/></svg></div>
+    <div class="facebook" title="Share this on Facebook" onclick="window.open('https://www.facebook.com/share.php?u=http://arnolanglade.github.io//how-did-I-organize-my-last-symfony-project.html');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1343 12v264h-157q-86 0-116 36t-30 108v189h293l-39 296h-254v759h-306v-759h-255v-296h255v-218q0-186 104-288.5t277-102.5q147 0 228 12z"/></svg></div>
+</div>
+
+                
+                <div class="related-post">
+                    <h1>Related posts</h1>
+                    <div class="row">
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <div class="col-lg-3 col-sm-6 mb-3">
+                                <div class="portfolio-item">
+                                    <a class="portfolio-link text-black" href="/persisting-entities-without-orm.html">
+                                        <img class="img-fluid" src="assets/img/posts/persisting-entity-without-orm.jpg" alt="Persisting entities without ORM"/>
+                                        <div class="portfolio-caption">
+                                            <div class="portfolio-caption-heading">Persisting entities without ORM</div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            
+                        
+                            
+                        
+                            
+                            <div class="col-lg-3 col-sm-6 mb-3">
+                                <div class="portfolio-item">
+                                    <a class="portfolio-link text-black" href="/data-validation.html">
+                                        <img class="img-fluid" src="assets/img/posts/data-validation.jpg" alt="Data validation"/>
+                                        <div class="portfolio-caption">
+                                            <div class="portfolio-caption-heading">Data validation</div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            
+                        
+                            
+                            <div class="col-lg-3 col-sm-6 mb-3">
+                                <div class="portfolio-item">
+                                    <a class="portfolio-link text-black" href="/command-handler-patterns.html">
+                                        <img class="img-fluid" src="assets/img/posts/command-handler.svg" alt="Command and command handler design pattern"/>
+                                        <div class="portfolio-caption">
+                                            <div class="portfolio-caption-heading">Command and command handler design pattern</div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            
+                        
+                    </div>
+                </div>
+                
+            </div>
+        </section>
+        <footer class="footer py-4">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-4 text-lg-left">Copyright © Arnaud Langlade</div>
+            <div class="col-lg-4 my-3 my-lg-0">
+                <a href="https://twitter.com/arnolanglade" class="btn btn-dark btn-social mx-2" target="_blank"><i class="fab fa-twitter"></i></a>
+                <a href="https://github.com/arnolanglade" class="btn btn-dark btn-social mx-2" target="_blank"><i class="fab fa-github"></i></a>
+                <a href="https://gitlab.com/arnolanglade" class="btn btn-dark btn-social mx-2" target="_blank"><i class="fab fa-gitlab"></i></a>
+                <a href="https://www.linkedin.com/in/arnaudlanglade" class="btn btn-dark btn-social mx-2" target="_blank"><i class="fab fa-linkedin"></i></a>
+            </div>
+        </div>
+    </div>
+</footer>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+<!-- Third party plugin JS-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+<!-- Core theme JS-->
+<script src="./js/scripts.js"></script>
+    </body>
+</html>

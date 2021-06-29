@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="author" content="Arnaud Langlade" />
+    <meta name="description" content="Software engineer @convelio and former core developer @sylius and @akeneo. Love DDD, BDD, TDD, event storming, example mapping">
+    <title>Why you should not expose objects' state to test them</title>
+    <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v5.12.1/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="css/styles.css" rel="stylesheet" />
+    <link href="css/code-highlight.css" rel="stylesheet" />
+    
+    <script src="https://getinsights.io/js/insights.js"></script>
+    <script>
+        insights.init('VoIrQveDE0uUwpQi');
+        insights.trackPages({
+            hash: true,
+            search: true
+        });
+    </script>
+    
+</head>
+
+    <body id="page-top">
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top navbar-shrink" id="mainNav">
+    <div class="container">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            Menu<i class="fas fa-bars ml-1"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav text-uppercase ml-auto">
+                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="index.html">About me</a></li>
+                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="talks.html">My talks</a></li>
+                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="blog.html">Blog</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+        <section class="page-section bg-light">
+            <div class="container blog">
+                
+
+<style>
+    #share-buttons {width: 100%; margin-bottom: 20px;}
+    #share-buttons:after {content: ""; display: block; clear: both;}
+    #share-buttons > div {float: right;width: 40px;cursor: pointer;}
+    #share-buttons > .facebook > svg {fill: #3B5998;}
+    #share-buttons > .twitter > svg {fill: #55ACEE;}
+    #share-buttons > .linkedin > svg {fill: #0077b5;}
+    #share-buttons > .facebook > svg {height: 30px; margin-top: 9px;}
+    #share-buttons > .twitter > svg {height: 32px; margin-top: 8px;}
+    #share-buttons > .linkedin > svg {height: 31px; margin-top: 7px;margin-left: 3px}
+</style>
+
+<div id="share-buttons">
+    <div class="linkedin" title="Share this on Linkedin" onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=http://arnolanglade.github.io//you-should-not-expose-objects-state-to-test-them.html&title=title&summary=summary&source=source');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M477 625v991h-330v-991h330zm21-306q1 73-50.5 122t-135.5 49h-2q-82 0-132-49t-50-122q0-74 51.5-122.5t134.5-48.5 133 48.5 51 122.5zm1166 729v568h-329v-530q0-105-40.5-164.5t-126.5-59.5q-63 0-105.5 34.5t-63.5 85.5q-11 30-11 81v553h-329q2-399 2-647t-1-296l-1-48h329v144h-2q20-32 41-56t56.5-52 87-43.5 114.5-15.5q171 0 275 113.5t104 332.5z"/></svg></div>
+    <div class="twitter" title="Share this on Twitter" onclick="window.open('https://twitter.com/intent/tweet?text=Why you should not expose objects' state to test them&url=http://arnolanglade.github.io//you-should-not-expose-objects-state-to-test-them.html&via=arnolanglade');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1684 408q-67 98-162 167 1 14 1 42 0 130-38 259.5t-115.5 248.5-184.5 210.5-258 146-323 54.5q-271 0-496-145 35 4 78 4 225 0 401-138-105-2-188-64.5t-114-159.5q33 5 61 5 43 0 85-11-112-23-185.5-111.5t-73.5-205.5v-4q68 38 146 41-66-44-105-115t-39-154q0-88 44-163 121 149 294.5 238.5t371.5 99.5q-8-38-8-74 0-134 94.5-228.5t228.5-94.5q140 0 236 102 109-21 205-78-37 115-142 178 93-10 186-50z"/></svg></div>
+    <div class="facebook" title="Share this on Facebook" onclick="window.open('https://www.facebook.com/share.php?u=http://arnolanglade.github.io//you-should-not-expose-objects-state-to-test-them.html');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1343 12v264h-157q-86 0-116 36t-30 108v189h293l-39 296h-254v759h-306v-759h-255v-296h255v-218q0-186 104-288.5t277-102.5q147 0 228 12z"/></svg></div>
+</div>
+                <h1 id="why-you-should-not-expose-objects-state-to-test-them">Why you should not expose objects’ state to test them</h1>
+
+<p><img src="assets/img/posts/test-comparison.jpg" alt="Why you should not expose objects' state to test them" />
+<a href="https://unsplash.com/@jdent">@jdent</a></p>
+
+<p>To introduce this topic, let’s have a look at the PHP documentation to understand how object comparison works using the comparison and identity operators.</p>
+
+<blockquote>
+  <p>When using the comparison operator (==), object variables are compared in a simple manner, namely: Two object instances are equal if they have the same attributes and values (values are compared with ==), and are instances of the same class.</p>
+
+  <p>When using the identity operator (===), object variables are identical if and only if they refer to the same instance of the same class.</p>
+
+  <p><a href="https://www.php.net/manual/en/language.oop5.object-comparison.php">PHP documentation </a></p>
+</blockquote>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$object</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Object</span><span class="p">();</span>
+<span class="nv">$otherObject</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Object</span><span class="p">();</span>
+
+<span class="nv">$object</span> <span class="o">==</span> <span class="nv">$otherObject</span> <span class="c1">// true</span>
+<span class="nv">$object</span> <span class="o">===</span> <span class="nv">$otherObject</span> <span class="c1">// false </span>
+</code></pre></div></div>
+
+<p>I add an <code class="language-plaintext highlighter-rouge">equals</code> method to objects to handle object comparison. The purpose of this method is to compare an object state with another one. In the following example, I use the comparison operator (==) because I want to check if the objects have the same state no matter their references.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">final</span> <span class="kd">class</span> <span class="nc">Email</span>
+<span class="p">{</span>
+   <span class="k">private</span> <span class="kt">string</span> <span class="nv">$email</span><span class="p">;</span>
+
+   <span class="k">public</span> <span class="k">function</span> <span class="n">__construct</span><span class="p">(</span><span class="kt">string</span> <span class="nv">$email</span><span class="p">)</span>
+   <span class="p">{</span>
+       <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">email</span> <span class="o">=</span> <span class="nv">$email</span><span class="p">;</span>
+   <span class="p">}</span>
+
+   <span class="k">public</span> <span class="k">function</span> <span class="n">equals</span><span class="p">(</span><span class="kt">Email</span> <span class="nv">$email</span><span class="p">):</span> <span class="kt">bool</span>
+   <span class="p">{</span>
+       <span class="k">return</span> <span class="nv">$this</span> <span class="o">==</span> <span class="nv">$email</span><span class="p">;</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>There is another way to compare object state. Do you know that instances of the same class can access each other’s private members?</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">final</span> <span class="kd">class</span> <span class="nc">Email</span>
+<span class="p">{</span>
+   <span class="k">public</span> <span class="k">function</span> <span class="n">equals</span><span class="p">(</span><span class="kt">Email</span> <span class="nv">$email</span><span class="p">):</span> <span class="kt">bool</span>
+   <span class="p">{</span>
+       <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">email</span> <span class="o">===</span> <span class="nv">$email</span><span class="o">-&gt;</span><span class="n">email</span><span class="p">;</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><strong>Tip:</strong> This is really useful to compare Doctrine entities that have persistent collections. The error <code class="language-plaintext highlighter-rouge">Error: Nesting level too deep - recursive dependency?</code> is raised when we compare entities using the comparison operator (==). You should have a look at this <a href="https://www.richardlord.net/blog/php/php-nesting-level-too-deep-recursive-dependency.html">blog post</a> to understand why this error occured. Accessing private attributes let you use the identity operator (===) to prevent this error.</p>
+
+<p>By the way, entities are a bit special because an entity is an object that has an identity. It means that if we want to compare them we should compare their identities instead of their states.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">final</span> <span class="kd">class</span> <span class="nc">Map</span>
+<span class="p">{</span>
+   <span class="k">private</span> <span class="kt">MapId</span> <span class="nv">$mapId</span><span class="p">;</span>
+
+   <span class="k">public</span> <span class="k">function</span> <span class="n">equals</span><span class="p">(</span><span class="kt">MapId</span> <span class="nv">$mapId</span><span class="p">):</span> <span class="kt">bool</span>
+   <span class="p">{</span>
+       <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">mapId</span><span class="o">-&gt;</span><span class="nf">equals</span><span class="p">(</span><span class="nv">$mapId</span><span class="p">);</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>I add an extra method called <code class="language-plaintext highlighter-rouge">hasSameState</code> to entities to compare their states because entity state comparison remains really useful for testing.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">final</span> <span class="kd">class</span> <span class="nc">Map</span>
+<span class="p">{</span>
+   <span class="k">public</span> <span class="k">function</span> <span class="n">hasSameState</span><span class="p">(</span><span class="kt">Map</span> <span class="nv">$map</span><span class="p">):</span> <span class="kt">bool</span>
+   <span class="p">{</span>
+       <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">map</span> <span class="o">==</span> <span class="nv">$map</span><span class="p">;</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>For a long time, I used getters for testing purposes. I only knew this way to ensure objects had the right state.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$map</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Map</span><span class="p">(</span><span class="s1">'Best places at Nantes'</span><span class="p">);</span>
+
+<span class="nv">$map</span><span class="o">-&gt;</span><span class="nb">rename</span><span class="p">(</span><span class="s1">'Best places at Bordeaux'</span><span class="p">);</span>
+
+<span class="nv">$map</span><span class="o">-&gt;</span><span class="nf">getName</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">shouldReturn</span><span class="p">(</span><span class="s1">'Best places at Bordeaux'</span><span class="p">)</span> <span class="p">;</span>
+</code></pre></div></div>
+
+<p>It was a mistake because exposing objects’ state breaks data encapsulation. We should not know how objects work internally, we should only use their public API (public methods) to interact with them. But, if we need to build the <code class="language-plaintext highlighter-rouge">Map</code> object with something else than a string, this assertion will no longer be true. That will break all application tests and parts that use this getter! That’s not great! Object comparison I described previously helps to get rid of getters.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$map</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Map</span><span class="p">(</span><span class="s1">'Best places at Nantes'</span><span class="p">);</span>
+
+<span class="nv">$map</span><span class="o">-&gt;</span><span class="nb">rename</span><span class="p">(</span><span class="s1">'Best places at Bordeaux'</span><span class="p">);</span>
+
+<span class="nv">$map</span><span class="o">-&gt;</span><span class="nf">hasSameState</span><span class="p">(</span><span class="k">new</span> <span class="nc">Map</span><span class="p">(</span><span class="s1">'Best places at Bordeaux'</span><span class="p">))</span><span class="o">-&gt;</span><span class="nf">shouldReturn</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>Now, the <code class="language-plaintext highlighter-rouge">Map</code> object is better designed. Its state is not exposed anymore which improves data encapsulation. It follows the “Tell don’t ask” principle because I don’t need to extract its internal state to test it. I only need to use its public API to check if it meets the business exceptions.</p>
+
+<p><strong>Tip:</strong> If you don’t want or if you can’t add a method to your objects that handles comparison you can still compare their instances to avoid adding getters.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Assert</span><span class="o">::</span><span class="nf">equals</span><span class="p">(</span><span class="nv">$map</span><span class="p">,</span> <span class="k">new</span> <span class="nc">Map</span><span class="p">(</span><span class="s1">'Best places at Bordeaux'</span><span class="p">));</span>
+</code></pre></div></div>
+
+<p>Thanks to my proofreader <a href="https://twitter.com/LaureBrosseau">@LaureBrosseau</a>.</p>
+
+                
+
+<style>
+    #share-buttons {width: 100%; margin-bottom: 20px;}
+    #share-buttons:after {content: ""; display: block; clear: both;}
+    #share-buttons > div {float: right;width: 40px;cursor: pointer;}
+    #share-buttons > .facebook > svg {fill: #3B5998;}
+    #share-buttons > .twitter > svg {fill: #55ACEE;}
+    #share-buttons > .linkedin > svg {fill: #0077b5;}
+    #share-buttons > .facebook > svg {height: 30px; margin-top: 9px;}
+    #share-buttons > .twitter > svg {height: 32px; margin-top: 8px;}
+    #share-buttons > .linkedin > svg {height: 31px; margin-top: 7px;margin-left: 3px}
+</style>
+
+<div id="share-buttons">
+    <div class="linkedin" title="Share this on Linkedin" onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=http://arnolanglade.github.io//you-should-not-expose-objects-state-to-test-them.html&title=title&summary=summary&source=source');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M477 625v991h-330v-991h330zm21-306q1 73-50.5 122t-135.5 49h-2q-82 0-132-49t-50-122q0-74 51.5-122.5t134.5-48.5 133 48.5 51 122.5zm1166 729v568h-329v-530q0-105-40.5-164.5t-126.5-59.5q-63 0-105.5 34.5t-63.5 85.5q-11 30-11 81v553h-329q2-399 2-647t-1-296l-1-48h329v144h-2q20-32 41-56t56.5-52 87-43.5 114.5-15.5q171 0 275 113.5t104 332.5z"/></svg></div>
+    <div class="twitter" title="Share this on Twitter" onclick="window.open('https://twitter.com/intent/tweet?text=Why you should not expose objects' state to test them&url=http://arnolanglade.github.io//you-should-not-expose-objects-state-to-test-them.html&via=arnolanglade');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1684 408q-67 98-162 167 1 14 1 42 0 130-38 259.5t-115.5 248.5-184.5 210.5-258 146-323 54.5q-271 0-496-145 35 4 78 4 225 0 401-138-105-2-188-64.5t-114-159.5q33 5 61 5 43 0 85-11-112-23-185.5-111.5t-73.5-205.5v-4q68 38 146 41-66-44-105-115t-39-154q0-88 44-163 121 149 294.5 238.5t371.5 99.5q-8-38-8-74 0-134 94.5-228.5t228.5-94.5q140 0 236 102 109-21 205-78-37 115-142 178 93-10 186-50z"/></svg></div>
+    <div class="facebook" title="Share this on Facebook" onclick="window.open('https://www.facebook.com/share.php?u=http://arnolanglade.github.io//you-should-not-expose-objects-state-to-test-them.html');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1343 12v264h-157q-86 0-116 36t-30 108v189h293l-39 296h-254v759h-306v-759h-255v-296h255v-218q0-186 104-288.5t277-102.5q147 0 228 12z"/></svg></div>
+</div>
+
+                
+                <div class="related-post">
+                    <h1>Related posts</h1>
+                    <div class="row">
+                        
+                            
+                        
+                            
+                            <div class="col-lg-3 col-sm-6 mb-3">
+                                <div class="portfolio-item">
+                                    <a class="portfolio-link text-black" href="/why-unit-testing-can-be-hard.html">
+                                        <img class="img-fluid" src="assets/img/posts/why-unit-testing-can-be-hard.jpg" alt="Why unit testing can be hard?"/>
+                                        <div class="portfolio-caption">
+                                            <div class="portfolio-caption-heading">Why unit testing can be hard?</div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </div>
+                </div>
+                
+            </div>
+        </section>
+        <footer class="footer py-4">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-4 text-lg-left">Copyright © Arnaud Langlade</div>
+            <div class="col-lg-4 my-3 my-lg-0">
+                <a href="https://twitter.com/arnolanglade" class="btn btn-dark btn-social mx-2" target="_blank"><i class="fab fa-twitter"></i></a>
+                <a href="https://github.com/arnolanglade" class="btn btn-dark btn-social mx-2" target="_blank"><i class="fab fa-github"></i></a>
+                <a href="https://gitlab.com/arnolanglade" class="btn btn-dark btn-social mx-2" target="_blank"><i class="fab fa-gitlab"></i></a>
+                <a href="https://www.linkedin.com/in/arnaudlanglade" class="btn btn-dark btn-social mx-2" target="_blank"><i class="fab fa-linkedin"></i></a>
+            </div>
+        </div>
+    </div>
+</footer>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+<!-- Third party plugin JS-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+<!-- Core theme JS-->
+<script src="./js/scripts.js"></script>
+    </body>
+</html>

@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="author" content="Arnaud Langlade" />
+    <meta name="description" content="Software engineer @convelio and former core developer @sylius and @akeneo. Love DDD, BDD, TDD, event storming, example mapping">
+    <title>Persisting entities without ORM</title>
+    <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v5.12.1/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="css/styles.css" rel="stylesheet" />
+    <link href="css/code-highlight.css" rel="stylesheet" />
+    
+    <script src="https://getinsights.io/js/insights.js"></script>
+    <script>
+        insights.init('VoIrQveDE0uUwpQi');
+        insights.trackPages({
+            hash: true,
+            search: true
+        });
+    </script>
+    
+</head>
+
+    <body id="page-top">
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top navbar-shrink" id="mainNav">
+    <div class="container">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            Menu<i class="fas fa-bars ml-1"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav text-uppercase ml-auto">
+                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="index.html">About me</a></li>
+                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="talks.html">My talks</a></li>
+                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="blog.html">Blog</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+        <section class="page-section bg-light">
+            <div class="container blog">
+                
+
+<style>
+    #share-buttons {width: 100%; margin-bottom: 20px;}
+    #share-buttons:after {content: ""; display: block; clear: both;}
+    #share-buttons > div {float: right;width: 40px;cursor: pointer;}
+    #share-buttons > .facebook > svg {fill: #3B5998;}
+    #share-buttons > .twitter > svg {fill: #55ACEE;}
+    #share-buttons > .linkedin > svg {fill: #0077b5;}
+    #share-buttons > .facebook > svg {height: 30px; margin-top: 9px;}
+    #share-buttons > .twitter > svg {height: 32px; margin-top: 8px;}
+    #share-buttons > .linkedin > svg {height: 31px; margin-top: 7px;margin-left: 3px}
+</style>
+
+<div id="share-buttons">
+    <div class="linkedin" title="Share this on Linkedin" onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=http://arnolanglade.github.io//persisting-entities-without-orm.html&title=title&summary=summary&source=source');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M477 625v991h-330v-991h330zm21-306q1 73-50.5 122t-135.5 49h-2q-82 0-132-49t-50-122q0-74 51.5-122.5t134.5-48.5 133 48.5 51 122.5zm1166 729v568h-329v-530q0-105-40.5-164.5t-126.5-59.5q-63 0-105.5 34.5t-63.5 85.5q-11 30-11 81v553h-329q2-399 2-647t-1-296l-1-48h329v144h-2q20-32 41-56t56.5-52 87-43.5 114.5-15.5q171 0 275 113.5t104 332.5z"/></svg></div>
+    <div class="twitter" title="Share this on Twitter" onclick="window.open('https://twitter.com/intent/tweet?text=Persisting entities without ORM&url=http://arnolanglade.github.io//persisting-entities-without-orm.html&via=arnolanglade');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1684 408q-67 98-162 167 1 14 1 42 0 130-38 259.5t-115.5 248.5-184.5 210.5-258 146-323 54.5q-271 0-496-145 35 4 78 4 225 0 401-138-105-2-188-64.5t-114-159.5q33 5 61 5 43 0 85-11-112-23-185.5-111.5t-73.5-205.5v-4q68 38 146 41-66-44-105-115t-39-154q0-88 44-163 121 149 294.5 238.5t371.5 99.5q-8-38-8-74 0-134 94.5-228.5t228.5-94.5q140 0 236 102 109-21 205-78-37 115-142 178 93-10 186-50z"/></svg></div>
+    <div class="facebook" title="Share this on Facebook" onclick="window.open('https://www.facebook.com/share.php?u=http://arnolanglade.github.io//persisting-entities-without-orm.html');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1343 12v264h-157q-86 0-116 36t-30 108v189h293l-39 296h-254v759h-306v-759h-255v-296h255v-218q0-186 104-288.5t277-102.5q147 0 228 12z"/></svg></div>
+</div>
+                <h1 id="persisting-entities-without-orm">Persisting entities without ORM</h1>
+
+<p><img src="assets/img/posts/persisting-entity-without-orm.jpg" alt="Persisting entities without ORM" />
+<a href="https://unsplash.com/@tofi">@tofi</a></p>
+
+<p>Today, I will talk about persisting entities without ORM. First, I will introduce the repository pattern because it provides a good abstraction to manage object persistence. Then, we will see what are the impacts on the entity design.</p>
+
+<h2 id="repository-pattern">Repository pattern</h2>
+
+<p>The repository design pattern can be used to manage entity persistence and retrieval. It behaves like a collection of objects and hides the complexity of their storage. It ensures a clean separation between the domain model (the entity) and the data model (SQL tables). The following example shows a basic repository interface. Thanks to the <code class="language-plaintext highlighter-rouge">Maps</code> interface we will be able to add and retrieve Map entities, no matter their storage.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">interface</span> <span class="nc">Maps</span>
+<span class="p">{</span>
+   <span class="cd">/**
+    * @throws \LogicException
+    * @throws UnknownMap
+    */</span>
+   <span class="k">public</span> <span class="k">function</span> <span class="n">get</span><span class="p">(</span><span class="kt">MapId</span> <span class="nv">$mapId</span><span class="p">):</span> <span class="kt">Map</span><span class="p">;</span>
+
+   <span class="cd">/**
+    * @throws \LogicException
+    */</span>
+   <span class="k">public</span> <span class="k">function</span> <span class="n">add</span><span class="p">(</span><span class="kt">Map</span> <span class="nv">$map</span><span class="p">):</span> <span class="kt">void</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><strong>Caution:</strong> All <code class="language-plaintext highlighter-rouge">Maps</code> implementations should be tested with the same test because we need to be sure they behave the same way. It ensures the application works no matter the chosen implementation.</p>
+
+<p>Let’s see how we can implement this interface with PostgreSQL for instance. The <code class="language-plaintext highlighter-rouge">get</code> method is only responsible to get information from the database to build the map entity whereas the <code class="language-plaintext highlighter-rouge">add</code> method extracts the entity information to store them in the database.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">PostgreSqlMaps</span> <span class="kd">implements</span> <span class="nc">Maps</span>
+<span class="p">{</span>
+   <span class="k">private</span> <span class="kt">Connection</span> <span class="nv">$connection</span><span class="p">;</span>
+
+   <span class="k">public</span> <span class="k">function</span> <span class="n">__construct</span><span class="p">(</span><span class="kt">Connection</span> <span class="nv">$connection</span><span class="p">)</span>
+   <span class="p">{</span>
+       <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">connection</span> <span class="o">=</span> <span class="nv">$connection</span><span class="p">;</span>
+   <span class="p">}</span>
+
+   <span class="k">public</span> <span class="k">function</span> <span class="n">get</span><span class="p">(</span><span class="kt">MapId</span> <span class="nv">$mapId</span><span class="p">):</span> <span class="kt">Map</span>
+   <span class="p">{</span>
+       <span class="nv">$sql</span> <span class="o">=</span> <span class="sh">&lt;&lt;&lt;SQL
+           SELECT map."mapId", map.name
+           FROM map
+           WHERE map."mapId" = :mapId
+       SQL;</span>
+
+       <span class="nv">$statement</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">executeQuery</span><span class="p">(</span><span class="nv">$sql</span><span class="p">,</span> <span class="p">[</span><span class="s1">'mapId'</span> <span class="o">=&gt;</span> <span class="p">(</span><span class="n">string</span><span class="p">)</span> <span class="nv">$mapId</span><span class="p">]);</span>
+
+       <span class="k">if</span> <span class="p">(</span><span class="kc">false</span> <span class="o">===</span> <span class="nv">$map</span> <span class="o">=</span> <span class="nv">$statement</span><span class="o">-&gt;</span><span class="nf">fetchAssociative</span><span class="p">())</span> <span class="p">{</span>
+           <span class="k">throw</span> <span class="nc">UnknownMap</span><span class="o">::</span><span class="nf">withId</span><span class="p">(</span><span class="nv">$mapId</span><span class="p">);</span>
+       <span class="p">}</span>
+
+       <span class="k">return</span> <span class="k">new</span> <span class="nc">Map</span><span class="p">(</span><span class="nv">$map</span><span class="p">[</span><span class="s1">'mapId'</span><span class="p">],</span> <span class="nv">$map</span><span class="p">[</span><span class="s1">'name'</span><span class="p">]);</span>
+   <span class="p">}</span>
+
+   <span class="k">public</span> <span class="k">function</span> <span class="n">add</span><span class="p">(</span><span class="kt">Map</span> <span class="nv">$map</span><span class="p">):</span> <span class="kt">void</span>
+   <span class="p">{</span>
+       <span class="nv">$sql</span> <span class="o">=</span> <span class="sh">&lt;&lt;&lt;SQL
+           INSERT INTO map ("mapId", name)
+           VALUES (:mapId, :name)
+           ON CONFLICT ("mapId")
+           DO UPDATE SET name = :name;
+       SQL;</span>
+
+       <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">executeQuery</span><span class="p">(</span><span class="nv">$sql</span><span class="p">,</span> <span class="p">[</span><span class="s1">'mapId'</span> <span class="o">=&gt;</span> <span class="nv">$map</span><span class="p">,</span> <span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="nv">$map</span><span class="o">-&gt;</span><span class="nf">name</span><span class="p">()]);</span>
+   <span class="p">}</span>
+
+   <span class="k">private</span> <span class="k">function</span> <span class="n">executeQuery</span><span class="p">(</span><span class="kt">string</span> <span class="nv">$sql</span><span class="p">,</span> <span class="kt">array</span> <span class="nv">$data</span><span class="p">):</span> <span class="kt">Result</span>
+   <span class="p">{</span>
+       <span class="c1">// Execute query or throw logic exceptions if something goes wrong.</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><strong>Tip:</strong> Thanks to the clause <a href="https://www.postgresql.org/docs/9.5/sql-insert.html">ON CONFLICT</a> we can easily insert or update data with a single query.</p>
+
+<h2 id="entity-design-impacts">Entity design impacts</h2>
+
+<p>Now we are able to persist and retrieve our map entity. Let’s study the impact on entity design.</p>
+
+<p>Let’s start with persistence. In the previous example, I used getters to get its properties but I am not a fan of the getter to be honest! Getters break data encapsulation because they expose object implementation details. They don’t follow the <a href="https://www.martinfowler.com/bliki/TellDontAsk.html">Tell don’t ask</a> principle because we should not ask about the object state to do something, we should tell the object to do something for us. I like adding a <code class="language-plaintext highlighter-rouge">toState</code> method that is responsible to turn the entity into an associative array.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">final</span> <span class="kd">class</span> <span class="nc">Map</span>
+<span class="p">{</span>
+   <span class="k">public</span> <span class="k">function</span> <span class="n">toState</span><span class="p">():</span> <span class="kt">array</span>
+   <span class="p">{</span>
+      <span class="k">return</span> <span class="p">[</span>
+          <span class="s1">'mapId'</span> <span class="o">=&gt;</span> <span class="p">(</span><span class="n">string</span><span class="p">)</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">mapId</span><span class="p">,</span>
+          <span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="p">(</span><span class="n">string</span><span class="p">)</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">,</span>
+      <span class="p">];</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>So I just need to call the <code class="language-plaintext highlighter-rouge">toState</code> method instead of getters, this method returns data expected by the <code class="language-plaintext highlighter-rouge">executeQuery</code> method.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">PostgreSqlMaps</span> <span class="kd">implements</span> <span class="nc">Maps</span>
+<span class="p">{</span>
+   <span class="c1">// ...</span>
+   <span class="k">public</span> <span class="k">function</span> <span class="n">add</span><span class="p">(</span><span class="kt">Map</span> <span class="nv">$map</span><span class="p">):</span> <span class="kt">void</span>
+   <span class="p">{</span>
+       <span class="c1">// ...</span>
+       <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">executeQuery</span><span class="p">(</span><span class="nv">$sql</span><span class="p">,</span> <span class="nv">$map</span><span class="o">-&gt;</span><span class="nf">toState</span><span class="p">());</span>
+   <span class="p">}</span>
+   <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Let’s continue with retrieval. If we have a look at the <code class="language-plaintext highlighter-rouge">Map</code>constructor method we can see that a <code class="language-plaintext highlighter-rouge">MapInitialized</code> event is recorded there. Houston, we have a problem! When we build an entity from its state (data stored somewhere) we don’t want to record any event because nothing happens. So, we need to find a solution to avoid recording those events.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">public</span> <span class="k">function</span> <span class="n">__construct</span><span class="p">(</span>
+   <span class="kt">MapId</span> <span class="nv">$mapId</span><span class="p">,</span>
+   <span class="kt">MapName</span> <span class="nv">$name</span>
+<span class="p">)</span> <span class="p">{</span>
+   <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">mapId</span> <span class="o">=</span> <span class="nv">$mapId</span><span class="p">;</span>
+   <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">name</span> <span class="o">=</span> <span class="nv">$name</span><span class="p">;</span>
+
+   <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">recordEvent</span><span class="p">(</span><span class="k">new</span> <span class="nc">MapInitialized</span><span class="p">(</span>
+       <span class="nv">$mapId</span><span class="p">,</span>
+       <span class="nv">$name</span>
+   <span class="p">));</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>I like adding a named constructor called <code class="language-plaintext highlighter-rouge">fromState</code> to the entity. This constructor is responsible for building the aggregate from the state. Moreover, named constructors are explicit and give developers information about when to use them. In the following example, after calling the <a href="https://arnolanglade.github.io/build-object-using-php.html">primary constructor</a> we call the <code class="language-plaintext highlighter-rouge">eraseRecordedEvents</code> method to reset events before returning the object in the right state.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">public</span> <span class="k">static</span> <span class="k">function</span> <span class="n">fromState</span><span class="p">(</span><span class="kt">array</span> <span class="nv">$state</span><span class="p">):</span> <span class="kt">self</span>
+<span class="p">{</span>
+   <span class="nv">$map</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">self</span><span class="p">(</span>
+       <span class="k">new</span> <span class="nc">MapId</span><span class="p">(</span><span class="nv">$state</span><span class="p">[</span><span class="s1">'mapId'</span><span class="p">]),</span>
+       <span class="k">new</span> <span class="nc">MapName</span><span class="p">(</span><span class="nv">$state</span><span class="p">[</span><span class="s1">'name'</span><span class="p">])</span>
+   <span class="p">);</span>
+
+   <span class="nv">$map</span><span class="o">-&gt;</span><span class="nf">eraseRecordedEvents</span><span class="p">();</span>
+
+   <span class="k">return</span> <span class="nv">$map</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>So, the only change in the repository is to build the <code class="language-plaintext highlighter-rouge">Map</code> entity from the named constructor.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">PostgreSqlMaps</span> <span class="kd">implements</span> <span class="nc">Maps</span>
+<span class="p">{</span>
+
+   <span class="k">public</span> <span class="k">function</span> <span class="n">get</span><span class="p">(</span><span class="kt">MapId</span> <span class="nv">$mapId</span><span class="p">):</span> <span class="kt">Map</span>
+   <span class="p">{</span>
+       <span class="c1">// ...</span>
+
+       <span class="k">return</span> <span class="nc">Map</span><span class="o">::</span><span class="nf">fromState</span><span class="p">(</span><span class="nv">$map</span><span class="p">);</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="last-word">Last word</h2>
+
+<p>I did a presentation about the repository design pattern at the Forum PHP in 2018. A video is only available in French <a href="https://www.youtube.com/watch?v=cYFKkhtIr8w&amp;ab_channel=AFUPPHP">here</a> but the slides are in English <a href="https://arnolanglade.gitlab.io/bad-or-good-repository/">here</a> (press “s” to display English notes). Even if this presentation was made for Doctrine ORM it gives a lot of information about the pattern.</p>
+
+<p><strong>Note:</strong> In this talk I spoke about generating the entity identity by the repository. To be honest, I stopped doing that because generating it from controllers is easier and makes the repository design simpler.</p>
+
+<p>Thanks to my proofreader <a href="https://twitter.com/LaureBrosseau">@LaureBrosseau</a>.</p>
+
+                
+
+<style>
+    #share-buttons {width: 100%; margin-bottom: 20px;}
+    #share-buttons:after {content: ""; display: block; clear: both;}
+    #share-buttons > div {float: right;width: 40px;cursor: pointer;}
+    #share-buttons > .facebook > svg {fill: #3B5998;}
+    #share-buttons > .twitter > svg {fill: #55ACEE;}
+    #share-buttons > .linkedin > svg {fill: #0077b5;}
+    #share-buttons > .facebook > svg {height: 30px; margin-top: 9px;}
+    #share-buttons > .twitter > svg {height: 32px; margin-top: 8px;}
+    #share-buttons > .linkedin > svg {height: 31px; margin-top: 7px;margin-left: 3px}
+</style>
+
+<div id="share-buttons">
+    <div class="linkedin" title="Share this on Linkedin" onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=http://arnolanglade.github.io//persisting-entities-without-orm.html&title=title&summary=summary&source=source');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M477 625v991h-330v-991h330zm21-306q1 73-50.5 122t-135.5 49h-2q-82 0-132-49t-50-122q0-74 51.5-122.5t134.5-48.5 133 48.5 51 122.5zm1166 729v568h-329v-530q0-105-40.5-164.5t-126.5-59.5q-63 0-105.5 34.5t-63.5 85.5q-11 30-11 81v553h-329q2-399 2-647t-1-296l-1-48h329v144h-2q20-32 41-56t56.5-52 87-43.5 114.5-15.5q171 0 275 113.5t104 332.5z"/></svg></div>
+    <div class="twitter" title="Share this on Twitter" onclick="window.open('https://twitter.com/intent/tweet?text=Persisting entities without ORM&url=http://arnolanglade.github.io//persisting-entities-without-orm.html&via=arnolanglade');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1684 408q-67 98-162 167 1 14 1 42 0 130-38 259.5t-115.5 248.5-184.5 210.5-258 146-323 54.5q-271 0-496-145 35 4 78 4 225 0 401-138-105-2-188-64.5t-114-159.5q33 5 61 5 43 0 85-11-112-23-185.5-111.5t-73.5-205.5v-4q68 38 146 41-66-44-105-115t-39-154q0-88 44-163 121 149 294.5 238.5t371.5 99.5q-8-38-8-74 0-134 94.5-228.5t228.5-94.5q140 0 236 102 109-21 205-78-37 115-142 178 93-10 186-50z"/></svg></div>
+    <div class="facebook" title="Share this on Facebook" onclick="window.open('https://www.facebook.com/share.php?u=http://arnolanglade.github.io//persisting-entities-without-orm.html');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1343 12v264h-157q-86 0-116 36t-30 108v189h293l-39 296h-254v759h-306v-759h-255v-296h255v-218q0-186 104-288.5t277-102.5q147 0 228 12z"/></svg></div>
+</div>
+
+                
+                <div class="related-post">
+                    <h1>Related posts</h1>
+                    <div class="row">
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <div class="col-lg-3 col-sm-6 mb-3">
+                                <div class="portfolio-item">
+                                    <a class="portfolio-link text-black" href="/build-object-using-php.html">
+                                        <img class="img-fluid" src="assets/img/posts/build-object.jpg" alt="Build an object using PHP"/>
+                                        <div class="portfolio-caption">
+                                            <div class="portfolio-caption-heading">Build an object using PHP</div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            
+                        
+                            
+                        
+                            
+                        
+                    </div>
+                </div>
+                
+            </div>
+        </section>
+        <footer class="footer py-4">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-4 text-lg-left">Copyright © Arnaud Langlade</div>
+            <div class="col-lg-4 my-3 my-lg-0">
+                <a href="https://twitter.com/arnolanglade" class="btn btn-dark btn-social mx-2" target="_blank"><i class="fab fa-twitter"></i></a>
+                <a href="https://github.com/arnolanglade" class="btn btn-dark btn-social mx-2" target="_blank"><i class="fab fa-github"></i></a>
+                <a href="https://gitlab.com/arnolanglade" class="btn btn-dark btn-social mx-2" target="_blank"><i class="fab fa-gitlab"></i></a>
+                <a href="https://www.linkedin.com/in/arnaudlanglade" class="btn btn-dark btn-social mx-2" target="_blank"><i class="fab fa-linkedin"></i></a>
+            </div>
+        </div>
+    </div>
+</footer>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+<!-- Third party plugin JS-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+<!-- Core theme JS-->
+<script src="./js/scripts.js"></script>
+    </body>
+</html>

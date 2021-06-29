@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="author" content="Arnaud Langlade" />
+    <meta name="description" content="Software engineer @convelio and former core developer @sylius and @akeneo. Love DDD, BDD, TDD, event storming, example mapping">
+    <title>Objective: set up your projects more easily</title>
+    <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v5.12.1/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="css/styles.css" rel="stylesheet" />
+    <link href="css/code-highlight.css" rel="stylesheet" />
+    
+    <script src="https://getinsights.io/js/insights.js"></script>
+    <script>
+        insights.init('VoIrQveDE0uUwpQi');
+        insights.trackPages({
+            hash: true,
+            search: true
+        });
+    </script>
+    
+</head>
+
+    <body id="page-top">
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top navbar-shrink" id="mainNav">
+    <div class="container">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            Menu<i class="fas fa-bars ml-1"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav text-uppercase ml-auto">
+                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="index.html">About me</a></li>
+                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="talks.html">My talks</a></li>
+                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="blog.html">Blog</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+        <section class="page-section bg-light">
+            <div class="container blog">
+                
+
+<style>
+    #share-buttons {width: 100%; margin-bottom: 20px;}
+    #share-buttons:after {content: ""; display: block; clear: both;}
+    #share-buttons > div {float: right;width: 40px;cursor: pointer;}
+    #share-buttons > .facebook > svg {fill: #3B5998;}
+    #share-buttons > .twitter > svg {fill: #55ACEE;}
+    #share-buttons > .linkedin > svg {fill: #0077b5;}
+    #share-buttons > .facebook > svg {height: 30px; margin-top: 9px;}
+    #share-buttons > .twitter > svg {height: 32px; margin-top: 8px;}
+    #share-buttons > .linkedin > svg {height: 31px; margin-top: 7px;margin-left: 3px}
+</style>
+
+<div id="share-buttons">
+    <div class="linkedin" title="Share this on Linkedin" onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=http://arnolanglade.github.io//objective-set-up-your-projects-more-easily.html&title=title&summary=summary&source=source');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M477 625v991h-330v-991h330zm21-306q1 73-50.5 122t-135.5 49h-2q-82 0-132-49t-50-122q0-74 51.5-122.5t134.5-48.5 133 48.5 51 122.5zm1166 729v568h-329v-530q0-105-40.5-164.5t-126.5-59.5q-63 0-105.5 34.5t-63.5 85.5q-11 30-11 81v553h-329q2-399 2-647t-1-296l-1-48h329v144h-2q20-32 41-56t56.5-52 87-43.5 114.5-15.5q171 0 275 113.5t104 332.5z"/></svg></div>
+    <div class="twitter" title="Share this on Twitter" onclick="window.open('https://twitter.com/intent/tweet?text=Objective: set up your projects more easily&url=http://arnolanglade.github.io//objective-set-up-your-projects-more-easily.html&via=arnolanglade');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1684 408q-67 98-162 167 1 14 1 42 0 130-38 259.5t-115.5 248.5-184.5 210.5-258 146-323 54.5q-271 0-496-145 35 4 78 4 225 0 401-138-105-2-188-64.5t-114-159.5q33 5 61 5 43 0 85-11-112-23-185.5-111.5t-73.5-205.5v-4q68 38 146 41-66-44-105-115t-39-154q0-88 44-163 121 149 294.5 238.5t371.5 99.5q-8-38-8-74 0-134 94.5-228.5t228.5-94.5q140 0 236 102 109-21 205-78-37 115-142 178 93-10 186-50z"/></svg></div>
+    <div class="facebook" title="Share this on Facebook" onclick="window.open('https://www.facebook.com/share.php?u=http://arnolanglade.github.io//objective-set-up-your-projects-more-easily.html');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1343 12v264h-157q-86 0-116 36t-30 108v189h293l-39 296h-254v759h-306v-759h-255v-296h255v-218q0-186 104-288.5t277-102.5q147 0 228 12z"/></svg></div>
+</div>
+                <h1 id="objective-set-up-your-projects-more-easily">Objective: set up your projects more easily</h1>
+
+<p><img src="assets/img/posts/set-up-your-projects-more-easily.jpg" alt="Objective: set up your projects more easily" />
+<a href="https://unsplash.com/@intelligenciya">@intelligenciya</a></p>
+
+<p>For the last decade I worked on several more or less complex projects. I often had problems with their installation. Sometimes, the project was not documented or the existing documentation was not up to date. I had to run commands but I did not understand all of them. When I got errors it was hard to understand what happened. That was not always simple.</p>
+
+<p>During my last projects, I used makefile to provide an abstraction to simplify their installation and hide complexity. It let me install projects with a single command and provided a minimal set of targets which made my daily work easier.</p>
+
+<h2 id="how-does-makefile-work">How does makefile work?</h2>
+
+<p>A makefile is a set of “rules” that looks like:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>target: prerequisites prerequisites
+        recipe
+        recipe
+        ...
+</code></pre></div></div>
+
+<p>A <strong>target</strong> is the name of a file (or a folder) that is generated by <code class="language-plaintext highlighter-rouge">make</code>. It could also be the name of an action to perform but you need to declare it as PHONY.</p>
+
+<p>A <strong>prerequisite</strong> are the files (or folders) needed to create the target, you can see them as target dependencies.</p>
+
+<p>A <strong>recipe</strong> are all actions executed when the target is run. <strong>Caution:</strong> you need to indent all recipes using a “real” tab character otherwise you will get errors.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>.env:
+     <span class="nb">cp</span> .env.dist .env
+</code></pre></div></div>
+
+<p>If the <code class="language-plaintext highlighter-rouge">.env</code> file does not exist, the recipe will be carried out, but if it does exist the recipe won’t be executed #magic.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>.PHONY: cache
+cache: .env
+      bin/console c:c
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">cache</code> target does not target a file. Declaring this target as PHONY allows having a file named <code class="language-plaintext highlighter-rouge">cache</code> in the same directory as the Makefile.</p>
+
+<p><strong>Note:</strong> If the <code class="language-plaintext highlighter-rouge">.env</code> file does not exist the <code class="language-plaintext highlighter-rouge">.env</code> target will be performed before the <code class="language-plaintext highlighter-rouge">cache</code> target.</p>
+
+<h2 id="lets-take-an-example">Let’s take an example</h2>
+
+<p>For instance, a project orchestrated by docker-compose having:</p>
+<ul>
+  <li>a front application written in JS using React framework,</li>
+  <li>a back application written in PHP using Symfony framework,</li>
+  <li>a PostgreSQL database managed by Doctrine DBAL and Doctrine migration</li>
+</ul>
+
+<p><strong>Caution:</strong> I will only speak about projects setup for dev purposes. I won’t talk about making docker images ready for production.</p>
+
+<p>Let’s start installing the project dependencies. The following targets install project dependencies if they have not been downloaded yet. They can guess if they are outdated to upgrade them thanks to target prerequisites. Another interesting thing is that nothing will be done if dependencies are already installed and up to date.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Front</span>
+web/yarn.lock: web/package.json
+  docker-compose run <span class="nt">--rm</span> node yarn <span class="nb">install
+
+</span>web/node_modules: web/yarn.lock
+  docker-compose run <span class="nt">--rm</span> node yarn <span class="nb">install</span> <span class="nt">--frozen-lockfile</span>
+  docker-compose run <span class="nt">--rm</span> node yarn check <span class="nt">--integrity</span>
+
+<span class="c"># back</span>
+api/composer.lock: api/composer.json
+  docker-compose run <span class="nt">--rm</span> fpm composer update
+
+api/vendor: api/composer.lock
+  docker-compose run <span class="nt">--rm</span> fpm composer <span class="nb">install</span>
+
+</code></pre></div></div>
+
+<p>Then, we need to “up” all docker-compose services: the web server, the PHP process manager, the datatable, and the node to run the front application in development mode.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>.PHONY: up
+up:
+  docker-compose up <span class="nt">-d</span>
+</code></pre></div></div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker-compose ps                                              
+         Name                        Command               State                                     Ports                                   
+<span class="nt">---------------------------------------------------------------------------------------------------------------------------------------------</span>                                                     
+my-maps-node              docker-entrypoint.sh yarn  ...   Up                                                                                
+my-maps-web               nginx <span class="nt">-g</span> daemon off<span class="p">;</span>             Up      80/tcp                                                                    
+my-maps_database_1        docker-entrypoint.sh postgres    Up      5432/tcp                                                                  
+my-maps_fpm_1             php-fpm <span class="nt">-F</span>                       Up                                                                           
+</code></pre></div></div>
+
+<p>The last thing to do is to create the database schema using Doctrine migration.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>.PHONY: db-migration
+db-migration: api/vendor
+  docker-compose run <span class="nt">--rm</span> fpm bin/console doctrine:migrations:migrate <span class="nt">--no-interaction</span>
+</code></pre></div></div>
+
+<p><strong>Tip:</strong> To ease my daily work, I like introducing other targets like <code class="language-plaintext highlighter-rouge">db</code> target that resets database quickly or <code class="language-plaintext highlighter-rouge">fixture</code> to load some data fixtures.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>.PHONY: db
+db: api/vendor
+  docker-compose run <span class="nt">--rm</span> fpm bin/console doctrine:database:drop <span class="nt">--force</span> <span class="nt">--no-interaction</span>
+  docker-compose run <span class="nt">--rm</span> fpm bin/console doctrine:database:create <span class="nt">--no-interaction</span>
+
+.PHONY: fixtures
+fixtures: api/vendor
+  docker-compose run <span class="nt">--rm</span> fpm bin/console project:fixtures:load
+</code></pre></div></div>
+
+<p>Now, we have all atomic targets to set up all parts of the application. Another interesting thing with make, is that it can run several targets within a single command <code class="language-plaintext highlighter-rouge">make up api/vendor web/node_modules</code>.This is pretty useful to create scenarios. For instance, to set up and run the project I only need to run the following command:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>make up api/vendor web/node_modules db db-migration fixtures
+</code></pre></div></div>
+
+<p>But it works with everything:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>make db db-migration fixtures
+make api/vendor web/node_modules
+</code></pre></div></div>
+
+<p>To make your day-to-day basis, you can introduce targets that run those scenarios.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># It builds and runs the application</span>
+.PHONY: app-dev
+app-dev: up api/vendor web/node_modules db db-migration fixtures
+
+<span class="c"># It resets the database</span>
+.PHONY: db-reset
+db-reset: db db-migration fixtures
+
+<span class="c"># It resets the database</span>
+.PHONY: dependencies
+dependencies: api/vendor web/node_modules
+</code></pre></div></div>
+
+<p><strong>Tip:</strong> I advise you to introduce the minimum set of targets into the makefile. Keep it simple! Don’t forget that everyone uses it! To let developers have their custom targets you may want to include custom makefiles using <a href="https://www.gnu.org/software/make/manual/html_node/Include.html">include</a>. Don’t forget to add an entry into <code class="language-plaintext highlighter-rouge">.ignore</code> to avoid committing those files. Now, developers can create their own makefile with their personal targets.</p>
+
+<h2 id="one-last-word">One last word</h2>
+
+<p>Makefile is only a solution, this is not THE solution. The important thing to keep in mind is that you should be able to easily run your project to reduce the developer’s mental load and let them focus on the right thing. It will improve the day-to-day basis and make newcomers’ onboarding easier.</p>
+
+<p>Thanks to my proofreader <a href="https://twitter.com/LaureBrosseau">@LaureBrosseau</a>.</p>
+
+                
+
+<style>
+    #share-buttons {width: 100%; margin-bottom: 20px;}
+    #share-buttons:after {content: ""; display: block; clear: both;}
+    #share-buttons > div {float: right;width: 40px;cursor: pointer;}
+    #share-buttons > .facebook > svg {fill: #3B5998;}
+    #share-buttons > .twitter > svg {fill: #55ACEE;}
+    #share-buttons > .linkedin > svg {fill: #0077b5;}
+    #share-buttons > .facebook > svg {height: 30px; margin-top: 9px;}
+    #share-buttons > .twitter > svg {height: 32px; margin-top: 8px;}
+    #share-buttons > .linkedin > svg {height: 31px; margin-top: 7px;margin-left: 3px}
+</style>
+
+<div id="share-buttons">
+    <div class="linkedin" title="Share this on Linkedin" onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=http://arnolanglade.github.io//objective-set-up-your-projects-more-easily.html&title=title&summary=summary&source=source');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M477 625v991h-330v-991h330zm21-306q1 73-50.5 122t-135.5 49h-2q-82 0-132-49t-50-122q0-74 51.5-122.5t134.5-48.5 133 48.5 51 122.5zm1166 729v568h-329v-530q0-105-40.5-164.5t-126.5-59.5q-63 0-105.5 34.5t-63.5 85.5q-11 30-11 81v553h-329q2-399 2-647t-1-296l-1-48h329v144h-2q20-32 41-56t56.5-52 87-43.5 114.5-15.5q171 0 275 113.5t104 332.5z"/></svg></div>
+    <div class="twitter" title="Share this on Twitter" onclick="window.open('https://twitter.com/intent/tweet?text=Objective: set up your projects more easily&url=http://arnolanglade.github.io//objective-set-up-your-projects-more-easily.html&via=arnolanglade');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1684 408q-67 98-162 167 1 14 1 42 0 130-38 259.5t-115.5 248.5-184.5 210.5-258 146-323 54.5q-271 0-496-145 35 4 78 4 225 0 401-138-105-2-188-64.5t-114-159.5q33 5 61 5 43 0 85-11-112-23-185.5-111.5t-73.5-205.5v-4q68 38 146 41-66-44-105-115t-39-154q0-88 44-163 121 149 294.5 238.5t371.5 99.5q-8-38-8-74 0-134 94.5-228.5t228.5-94.5q140 0 236 102 109-21 205-78-37 115-142 178 93-10 186-50z"/></svg></div>
+    <div class="facebook" title="Share this on Facebook" onclick="window.open('https://www.facebook.com/share.php?u=http://arnolanglade.github.io//objective-set-up-your-projects-more-easily.html');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1343 12v264h-157q-86 0-116 36t-30 108v189h293l-39 296h-254v759h-306v-759h-255v-296h255v-218q0-186 104-288.5t277-102.5q147 0 228 12z"/></svg></div>
+</div>
+
+                
+                <div class="related-post">
+                    <h1>Related posts</h1>
+                    <div class="row">
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <div class="col-lg-3 col-sm-6 mb-3">
+                                <div class="portfolio-item">
+                                    <a class="portfolio-link text-black" href="/how-did-I-organize-my-last-symfony-project.html">
+                                        <img class="img-fluid" src="assets/img/posts/project-symfony-organization.jpg" alt="How did I organize my last Symfony projects?"/>
+                                        <div class="portfolio-caption">
+                                            <div class="portfolio-caption-heading">How did I organize my last Symfony projects?</div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </div>
+                </div>
+                
+            </div>
+        </section>
+        <footer class="footer py-4">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-4 text-lg-left">Copyright © Arnaud Langlade</div>
+            <div class="col-lg-4 my-3 my-lg-0">
+                <a href="https://twitter.com/arnolanglade" class="btn btn-dark btn-social mx-2" target="_blank"><i class="fab fa-twitter"></i></a>
+                <a href="https://github.com/arnolanglade" class="btn btn-dark btn-social mx-2" target="_blank"><i class="fab fa-github"></i></a>
+                <a href="https://gitlab.com/arnolanglade" class="btn btn-dark btn-social mx-2" target="_blank"><i class="fab fa-gitlab"></i></a>
+                <a href="https://www.linkedin.com/in/arnaudlanglade" class="btn btn-dark btn-social mx-2" target="_blank"><i class="fab fa-linkedin"></i></a>
+            </div>
+        </div>
+    </div>
+</footer>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+<!-- Third party plugin JS-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+<!-- Core theme JS-->
+<script src="./js/scripts.js"></script>
+    </body>
+</html>
